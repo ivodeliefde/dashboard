@@ -1,0 +1,16 @@
+body {
+	background-color: #f8f8fa;
+}
+
+.container, .row {
+	background-color: #FFFFFF;
+}
+
+.container {
+	min-height: 100vh;
+}
+
+h1, p, Table {
+	width: 80%;
+	margin: auto;
+}
