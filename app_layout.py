@@ -5,8 +5,10 @@ from app_data import get_app_data
 # HTML generator functions
 def generate_table(dataframe):
     return html.Table(
+		className='table table-striped',
+					
         # Header
-        [html.Tr([html.Th(col) for col in dataframe.columns])] +
+        children = [html.Tr([html.Th(col) for col in dataframe.columns])] +
 
         # Body
         [html.Tr([
@@ -20,9 +22,9 @@ def generate_row(children):
 					children = children
 				)
 
-def generate_graph(width="twelve",**kwargs):
+def generate_graph(width="4",**kwargs):
 	return html.Div(
-			className="{} columns".format(width),
+			className="col-lg-{}".format(width),
 			children = [
 				dcc.Graph(**kwargs)
 				]
@@ -30,7 +32,7 @@ def generate_graph(width="twelve",**kwargs):
 
 # Page to be rendered			
 def get_app_layout():
-	df, map_data, map_layout, graph_data, graph_layout = get_app_data()	
+	df, map_data, map_layout, map_layout_zoomedout, graph_data, graph_layout, pie_data, line_data = get_app_data()	
 	return html.Div(
 			className="container",
 			children=[
@@ -39,6 +41,7 @@ def get_app_layout():
 							children=[
 								dcc.Markdown('''# Dashboard Indoor Wayfinding
 
+								
 An online dashboard with indoor wayfinding statistics for API endpoint [geographicapi.herokuapp.com/get_pos](https://geographicapi.herokuapp.com/get_pos).''')		
 							]
 						)
@@ -46,7 +49,16 @@ An online dashboard with indoor wayfinding statistics for API endpoint [geograph
 				),
 				generate_row([
 						generate_graph(
+							width = 4,
 							id='map',
+							figure={
+								'data': map_data,
+								'layout': map_layout_zoomedout
+							}
+						),
+						generate_graph(
+							width = 8,
+							id='map2',
 							figure={
 								'data': map_data,
 								'layout': map_layout
@@ -56,16 +68,41 @@ An online dashboard with indoor wayfinding statistics for API endpoint [geograph
 				),
 				generate_row([
 						generate_graph(
-							id='linegraph',
+							width = 4,
+							id='histogram',
 							figure={
 								'data': graph_data,
 								'layout': graph_layout
+							}
+						),
+						generate_graph(
+							width = 4,
+							id='linegraph',
+							figure={
+								'data': line_data
+							}
+						),
+						generate_graph(
+							width = 4,
+							id='piechart',
+							figure={
+								'data': pie_data
 							}
 						)
 					]
 				),
 				generate_row([
-						generate_table(df)
+						html.Div(
+							className="col-lg-4 tablecontainer",
+							children=[
+								html.Div(
+									className="tablediv",
+									children=[
+										generate_table(df[['longitude','latitude','datetime']])
+									]
+								)
+							]
+						)
 					]
 				)
 			]

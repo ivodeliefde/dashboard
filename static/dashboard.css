@@ -1,4 +1,5 @@
 body {
+	
 	background-color: #f8f8fa;
 }
 
@@ -7,10 +8,25 @@ body {
 }
 
 .container {
+	display: table;
 	min-height: 100vh;
+	width: 100%;
+	overflow-x:hidden;
 }
 
-h1, p, Table {
+.row {
+	display: table-row;
+}
+
+h1, p, table{
 	width: 80%;
 	margin: auto;
+}
+
+h1 {
+	padding-top: 2vh;
+}
+
+table {
+	margin-left: 3vw;
 }

@@ -1,6 +1,6 @@
 from dash import Dash
 
-STYLESHEETS = ['normalize.css', 'skeleton.css', 'dashboard.css']
+STYLESHEETS = ['normalize.css', 'bootstrap.min.css', 'dashboard.css']
 
 class prettyDash(Dash):
     """Custom Dash class overriding index() method for local CSS support"""
